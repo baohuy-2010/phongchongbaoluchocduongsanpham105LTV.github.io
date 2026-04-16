@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phòng Chống Bạo Lực Học Đường</title>
+
+<style>
+/* --- CÀI ĐẶT CHUNG --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    margin: 0;
+    min-height: 100vh;
+    color: #2c3e50;
+...
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phòng Chống Bạo Lực Học Đường</title>
+
+<style>
+/* --- CÀI ĐẶT CHUNG --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    margin: 0;
+    min-height: 100vh;
+    color: #2c3e50;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Các View (Màn hình) */
+.view {
+    display: none; 
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+    animation: fadeIn 0.4s ease-in-out;
+}
+.view.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
+
+/* --- NÚT QUAY LẠI --- */
+.back-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    transition: all 0.2s;
+}
+.back-btn:hover { background: rgba(255, 255, 255, 0.4); }
+
+/* --- MÀN HÌNH CHÍNH (TRANG CHỦ) --- */
+.home-container { text-align: center; color: white; padding: 40px 20px; }
+.home-container h1 { font-size: 2.5rem; margin-bottom: 10px; }
+.home-container p { font-size: 1.2rem; margin-bottom: 20px; opacity: 0.9; }
+
+/* Kỷ lục điểm số */
+.best-score-badge {
+    display: inline-block;
+    background: #ffc107;
+    color: #856404;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.shortcut-grid { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
+.shortcut-card {
+    background: white; padding: 40px 30px; border-radius: 20px; width: 300px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2); cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; text-align: center;
+}
+.shortcut-card:hover { transform: translateY(-10px); box-shadow: 0 25px 45px rgba(0,0,0,0.3); }
+.shortcut-icon { font-size: 4rem; margin-bottom: 20px; }
+.shortcut-card h3 { color: #764ba2; font-size: 1.5rem; margin-bottom: 15px; }
+.shortcut-card p { color: #666; font-size: 1rem; line-height: 1.5; }
+
+/* --- MÀN HÌNH BÀI VIẾT (INFO) --- */
+.info-panel { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); line-height: 1.7; font-size: 1.1rem; }
+.info-panel h1 { color: #764ba2; text-align: center; border-bottom: 2px solid #eee; padding-bottom: 15px; }
+.info-panel h2 { color: #3498db; margin-top: 30px; }
+.info-panel h3 { color: #2c3e50; margin-top: 20px; }
+.info-panel ul { background: #f8fafc; padding: 20px 20px 20px 40px; border-radius: 10px; }
+.highlight-box { background: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; border-radius: 5px; margin: 20px 0; font-weight: bold; color: #856404; }
+
+/* --- MÀN HÌNH TRẮC NGHIỆM (QUIZ) --- */
+.quiz-panel { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-width: 700px; margin: 0 auto; }
+.quiz-header h2 { text-align: center; color: #764ba2; margin-bottom: 20px;}
+.progress { height: 8px; background: #eee; border-radius: 10px; margin-bottom: 15px; }
+.bar { height: 100%; background: #4facfe; width: 0%; border-radius: 10px; transition: width 0.4s; }
+.timer { text-align: right; color: #e74c3c; font-weight: bold; margin-bottom: 10px; }
+.question { font-size: 1.2rem; font-weight: bold; margin-bottom: 20px; }
+.answer { padding: 14px; border: 2px solid #edf2f7; border-radius: 10px; margin-bottom: 10px; cursor: pointer; background: #f8fafc; transition: 0.2s;}
+.answer:hover { background: #edf2f7; }
+.correct { background: #dcfce7 !important; color: #166534 !important; border-color: #22c55e !important; font-weight: bold; }
+.wrong { background: #fee2e2 !important; color: #991b1b !important; border-color: #ef4444 !important; }
+.quiz-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; background: #3498db; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 15px; }
+.quiz-btn:disabled { background: #cbd5e0; cursor: not-allowed; }
+#explain { margin: 15px 0; padding: 15px; border-left: 5px solid #3498db; background: #f1f8ff; display: none; }
+.result-card { text-align: center; }
+.score-circle { width: 100px; height: 100px; line-height: 100px; border-radius: 50%; color: white; font-size: 2em; margin: 20px auto; font-weight: bold; }
+.new-record { color: #e74c3c; font-weight: bold; font-size: 1.2rem; animation: pulse 0.5s infinite alternate; margin-bottom: 10px; }
+
+@media (max-width: 768px) {
+    .shortcut-card { width: 100%; }
+    .info-panel, .quiz-panel { padding: 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="view-home" class="view active">
+    <div class="home-container">
+        <h1>BẢO VỆ BẢN THÂN</h1>
+        <p>Hành trang an toàn trong môi trường học đường</p>
+        
+        <div class="best-score-badge" id="home-best-score" style="display: none;">
+            🏆 Kỷ lục trắc nghiệm: <span>0</span> điểm
+        </div>
+        
+        <div class="shortcut-grid">
+            <div class="shortcut-card" onclick="switchView('view-info')">
+                <div class="shortcut-icon">📚</div>
+                <h3>Kiến Thức Cần Thiết</h3>
+                <p>Tìm hiểu các kỹ năng nhận biết, phòng tránh và ứng phó với bạo lực học đường.</p>
+            </div>
+
+            <div class="shortcut-card" onclick="startQuiz()">
+                <div class="shortcut-icon">🎯</div>
+                <h3>Trắc Nghiệm Kỹ Năng</h3>
+                <p>Kiểm tra kiến thức phản xạ và cách xử lý tình huống thông qua bộ câu hỏi thực tế.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="view-info" class="view">
+    <div class="back-btn" onclick="switchView('view-home')">⬅ Quay lại Trang chủ</div>
+    <div class="info-panel">
+        <h1>Kỹ năng phòng chống bạo lực học đường</h1>
+        <p>Bạo lực học đường không chỉ để lại tổn thương thể chất mà còn gây ra những vết sẹo tâm lý khó lành. Việc trang bị kỹ năng phòng chống bạo lực học đường cho trẻ không chỉ giúp các em biết bảo vệ mình, mà còn hình thành khả năng thấu hiểu, kiểm soát cảm xúc và ứng xử tích cực với bạn bè.</p>
+
+        <h2>1. Kỹ năng phòng chống bạo lực học đường là gì?</h2>
+        <p>Là tập hợp những hiểu biết, thái độ và hành vi giúp học sinh nhận biết, tránh xa, ứng phó và báo cáo khi đối mặt với bạo lực học đường (thể chất, lời nói, tâm lý, trực tuyến...).</p>
+
+        <h2>2. Mục tiêu cốt lõi</h2>
+        <ul>
+            <li><b>Bảo vệ bản thân:</b> Nhận biết nguy cơ, tránh né tình huống nguy hiểm.</li>
+            <li><b>Tôn trọng người khác:</b> Kiểm soát cảm xúc, giải quyết xung đột bằng giao tiếp văn minh.</li>
+            <li><b>Ngăn chặn bạo lực lan rộng:</b> Dám lên tiếng, hỗ trợ nạn nhân và báo cáo cho người lớn.</li>
+        </ul>
+
+        <h2>3. Kỹ năng phòng tránh (Trước khi xảy ra)</h2>
+        <h3>🔹 Nhận biết tình huống nguy cơ</h3>
+        <ul>
+            <li><b>Địa điểm:</b> Góc khuất, nhà vệ sinh vắng, đoạn đường vắng.</li>
+            <li><b>Hành vi:</b> Nhóm tụ tập hung hăng, lời nói đe dọa.</li>
+        </ul>
+        <h3>🔹 Tránh xa người có hành vi bạo lực & Không lan truyền</h3>
+        <p>Không đơn độc đối đầu, không tham gia nói xấu, tung tin đồn hoặc cổ vũ khi chứng kiến bạo lực. Sử dụng mạng xã hội có trách nhiệm, không xúc phạm người khác qua mạng.</p>
+
+        <h2>4. Kỹ năng ứng phó (Khi đã xảy ra)</h2>
+        <ul>
+            <li><b>Thoát khỏi nguy hiểm:</b> Chạy về phía nơi đông người (phòng giáo viên, bảo vệ), kêu cứu lớn tiếng "Giúp tôi với!". Không quay lại khiêu khích.</li>
+            <li><b>Tìm kiếm giúp đỡ:</b> Báo ngay cho người lớn đáng tin cậy. Không im lặng chịu đựng.</li>
+            <li><b>Báo cáo chi tiết:</b> Cung cấp đầy đủ: Thời gian, địa điểm, kẻ bạo lực, hành vi và người chứng kiến/chứng cứ.</li>
+        </ul>
+
+        <div class="highlight-box">
+            💡 Kỹ năng phòng tránh giúp giảm thiểu nguy cơ. Kỹ năng ứng phó đảm bảo bạn biết cách bảo vệ mình và tìm trợ giúp kịp thời.
+        </div>
+    </div>
+</div>
+
+<div id="view-quiz" class="view">
+    <div class="back-btn" onclick="quitQuiz()">⬅ Quay lại Trang chủ</div>
+
+    <div class="quiz-panel" id="quiz-container">
+        </div>
+</div>
+
+<script>
+// --- LOGIC CHUYỂN MÀN HÌNH ---
+function switchView(viewId) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(viewId).classList.add('active');
+    window.scrollTo(0, 0);
+}
+
+// --- LOGIC TẢI ĐIỂM KỶ LỤC TỪ LOCAL STORAGE KHI TRANG TẢI XONG ---
+document.addEventListener("DOMContentLoaded", () => {
+    updateHighScoreUI();
+});
+
+function updateHighScoreUI() {
+    let bestScore = localStorage.getItem("quizBestScore");
+    if(bestScore) {
+        const badge = document.getElementById("home-best-score");
+        badge.style.display = "inline-block";
+        badge.querySelector("span").innerText = bestScore;
+    }
+}
+
+// --- DATA TRẮC NGHIỆM ---
+const quizData = [
+    {q:"Hành vi nào sau đây không phải là bạo lực học đường?", a:["Chửi bới bạn học về ngoại hình","Xóa tài liệu học tập của bạn cùng lớp","Chia sẻ bài tập với bạn học khác","Đẩy bạn học xuống cầu thang"], correct:2, explain:"Chia sẻ bài tập là hành vi tích cực, hỗ trợ bạn bè học tập, không gây tổn thương."},
+    {q:"Bạo lực học đường bao gồm những hình thức nào sau đây?", a:["Bạo lực thể chất, lời nói và tâm lý","Bạo lực tình dục và trực tuyến","Cả A và B","Chỉ A"], correct:2, explain:"Bạo lực bao quát nhiều khía cạnh từ thể xác đến tinh thần và không gian mạng."},
+    {q:"Dấu hiệu nào dưới đây là cảnh báo về nguy cơ bạo lực sắp xảy ra?", a:["Nhóm học sinh tụ tập ở góc khuất","Bạn học thường xuyên đi học một mình","Nhiều học sinh tụ tập nói xấu một bạn khác","Tất cả các đáp án trên"], correct:3, explain:"Hãy luôn cảnh giác với các tình huống bất thường hoặc biểu hiện cô lập tập thể."},
+    {q:"Ai có thể là nạn nhân của bạo lực học đường?", a:["Chỉ học sinh yếu đuối","Chỉ học sinh không chơi thể thao","Tất cả học sinh","Chỉ học sinh mới"], correct:2, explain:"Bạo lực không phân biệt đối tượng, bất cứ ai cũng có thể bị nhắm tới."},
+    {q:"Việc lan truyền tin đồn sai sự thật về bạn học là loại bạo lực nào?", a:["Bạo lực thể chất","Bạo lực tâm lý","Bạo lực trực tuyến","Bạo lực lời nói"], correct:1, explain:"Xúc phạm danh dự thông qua tin đồn gây tổn thương sâu sắc đến tâm lý nạn nhân."},
+    {q:"Khi thấy nhóm học sinh hung hăng chặn đường, bạn nên làm gì đầu tiên?", a:["Dừng lại đối đầu","Chạy về phía nơi đông người/có người lớn","Gọi điện cho bạn bè","Tham gia vào nhóm đó"], correct:1, explain:"Thoát khỏi tình huống nguy hiểm là quy tắc quan trọng nhất để bảo vệ an toàn."},
+    {q:"Điều nào không phải là cách dùng mạng xã hội có trách nhiệm?", a:["Chia sẻ ảnh/video gây hại cho bạn khi chưa cho phép","Không trả lời tin nhắn xúc phạm","Báo cáo nội dung bạo lực","Từ chối tham gia nhóm chat gây rối"], correct:0, explain:"Chia sẻ bí mật hoặc hình ảnh xấu của người khác là hành vi bạo lực trực tuyến."},
+    {q:"Khi thấy bạn học bị cô lập, bạn nên làm gì?", a:["Tham gia cô lập để được chấp nhận","Đứng về phía bạn đó và mời họ tham gia cùng","Báo cáo cho thầy cô","Cả B và C"], correct:3, explain:"Kết hợp giữa việc hỗ trợ tinh thần cho nạn nhân và báo cáo người lớn xử lý."},
+    {q:"Tại sao bạn không nên đơn độc đối đầu với kẻ bạo lực?", a:["Họ sẽ trả thù","Bạn có thể bị tổn thương nặng hơn","Người lớn không tin","Bạn sẽ bị cô lập"], correct:1, explain:"Kẻ bạo lực thường đi theo nhóm hoặc hung hãn, đối đầu một mình rất nguy hiểm."},
+    {q:"Tôn trọng ranh giới cá nhân có nghĩa là?", a:["Không chạm vào người khác khi chưa cho phép","Không hỏi thông tin riêng tư","Không ép buộc bạn làm điều mình không muốn","Tất cả các đáp án trên"], correct:3, explain:"Mỗi người đều có không gian riêng tư cần được tôn trọng tuyệt đối."}
+];
+
+let quiz = [];
+let current = 0;
+let userAnswers = [];
+let timeLeft = 600;
+let timer;
+let isAnswered = false;
+
+function startQuiz() {
+    quiz = [...quizData].sort(() => Math.random() - 0.5);
+    current = 0;
+    userAnswers = [];
+    timeLeft = 600;
+    clearInterval(timer);
+    
+    document.getElementById("quiz-container").innerHTML = `
+        <div class="quiz-header"><h2>🛡️ TRẮC NGHIỆM TỰ BẢO VỆ</h2></div>
+        <div class="timer">⏱️ Thời gian: <span id="time">600</span>s</div>
+        <div class="progress"><div class="bar" id="bar"></div></div>
+        <div id="question" class="question"></div>
+        <div id="answers"></div>
+        <div id="explain"></div>
+        <button class="quiz-btn" id="nextBtn" onclick="next()" disabled>Tiếp theo</button>
+    `;
+    
+    switchView('view-quiz');
+    loadQuestion();
+    
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("time").innerText = timeLeft;
+        if(timeLeft <= 0) finishQuiz();
+    }, 1000);
+}
+
+function quitQuiz() {
+    clearInterval(timer);
+    switchView('view-home');
+}
+
+function loadQuestion() {
+    isAnswered = false;
+    document.getElementById("nextBtn").disabled = true;
+    let q = quiz[current];
+    document.getElementById("question").innerText = `Câu ${current + 1}: ${q.q}`;
+
+    let html = "";
+    q.a.forEach((ans, i) => {
+        html += `<div class="answer" onclick="selectAnswer(this,${i})">${ans}</div>`;
+    });
+
+    document.getElementById("answers").innerHTML = html;
+    document.getElementById("explain").style.display = "none";
+    document.getElementById("bar").style.width = (current / quiz.length * 100) + "%";
+}
+
+function selectAnswer(el, i) {
+    if (isAnswered) return;
+    isAnswered = true;
+    userAnswers[current] = i;
+    let q = quiz[current];
+    document.getElementById("nextBtn").disabled = false;
+
+    document.querySelectorAll(".answer").forEach((n, idx) => {
+        if (idx == q.correct) n.classList.add("correct");
+        if (idx == i && idx != q.correct) n.classList.add("wrong");
+    });
+
+    const exp = document.getElementById("explain");
+    exp.innerHTML = `<b>💡 Giải thích:</b> ${q.explain}`;
+    exp.style.display = "block";
+}
+
+function next() {
+    current++;
+    if (current < quiz.length) {
+        loadQuestion();
+    } else {
+        finishQuiz();
+    }
+}
+
+function finishQuiz() {
+    clearInterval(timer);
+    let score = 0;
+    quiz.forEach((q, i) => { if (userAnswers[i] == q.correct) score++; });
+
+    // --- LOGIC LƯU ĐIỂM VÀO LOCAL STORAGE ---
+    let bestScore = parseInt(localStorage.getItem("quizBestScore")) || 0;
+    let isNewRecord = false;
+    
+    if (score > bestScore) {
+        localStorage.setItem("quizBestScore", score);
+        bestScore = score;
+        isNewRecord = true;
+        updateHighScoreUI(); // Cập nhật lại nhãn ở trang chủ
+    }
+
+    // --- HIỂN THỊ KẾT QUẢ ---
+    let msg = "";
+    let color = "";
+    if(score >= (quiz.length * 0.8)) { msg = "Hiểu biết rất tốt!"; color = "#2ecc71"; }
+    else if(score >= (quiz.length * 0.5)) { msg = "Cần học hỏi thêm!"; color = "#f1c40f"; }
+    else { msg = "Hãy chú ý an toàn hơn!"; color = "#e74c3c"; }
+
+    let recordHtml = isNewRecord 
+        ? `<div class="new-record">🎉 Chúc mừng! Bạn đã đạt Kỷ Lục Mới!</div>` 
+        : `<p style="color: #666; font-size: 1.1rem; margin-bottom: 15px;">Kỷ lục của bạn: <b>${bestScore}/${quiz.length}</b></p>`;
+
+    document.getElementById("quiz-container").innerHTML = `
+        <div class="result-card">
+            <h2>KẾT QUẢ</h2>
+            <div class="score-circle" style="background:${color}">${score}/${quiz.length}</div>
+            ${recordHtml}
+            <p style="font-weight:bold; color:${color}; font-size:1.2rem">${msg}</p>
+            <p style="font-size:1rem; color:#666; margin-bottom: 20px;">Cảm ơn bạn đã tham gia bài trắc nghiệm!</p>
+            <button class="quiz-btn" onclick="startQuiz()">LÀM LẠI BÀI TẬP</button>
+        </div>`;
+}
+</script>
+</body>
+</html>
